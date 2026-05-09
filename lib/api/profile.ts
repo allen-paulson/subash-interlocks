@@ -22,8 +22,8 @@ export async function getProfile(): Promise<Profile> {
   return {
     name: "Subash D.",
     tagline: "Master Craftsmanship in Interlock Paving",
-    phone: "tel:+918281174323",
-    whatsapp: "https://wa.me/918281174323",
+    phone: "tel:+918281174393",
+    whatsapp: "https://wa.me/918281174393",
     whatsappMessage: "Hi Subash, I'm interested in your interlock paving services.",
     yearsExperience: 15,
     satisfiedCustomers: 100,

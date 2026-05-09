@@ -24,7 +24,14 @@ const WIDTHS = [
 
 export default function ProjectsSlider({ projects }: Props) {
   const [emblaRef] = useEmblaCarousel(
-    { align: "start", loop: true, dragFree: true },
+    {
+      align: "start",
+      loop: true,
+      dragFree: true,
+      watchDrag: () =>
+        typeof window !== "undefined" &&
+        window.matchMedia("(min-width: 768px)").matches,
+    },
     [
       AutoScroll({
         speed: 1.2,
@@ -52,7 +59,7 @@ export default function ProjectsSlider({ projects }: Props) {
           {featured.map((project, i) => (
             <div
               key={project.id}
-              className="relative ms-1 shrink-0 overflow-hidden rounded-sm"
+              className={`relative ms-1 shrink-0 overflow-hidden rounded-sm${i >= 5 ? " hidden md:block" : ""}`}
               style={{ width: WIDTHS[i % WIDTHS.length] }}
             >
               {/* Shimmer placeholder */}
@@ -117,6 +124,7 @@ export default function ProjectsSlider({ projects }: Props) {
                     src={project.src}
                     alt={project.alt}
                     fill
+                    loading="lazy"
                     className="object-cover object-top"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   />
