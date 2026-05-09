@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(node -e \"const {animate} = require\\('c:/freelance/interlock/node_modules/framer-motion'\\); const c = animate\\(0, 10, { duration: 0.1, onUpdate: \\(v\\) => console.log\\('update:', v\\) }\\); setTimeout\\(\\(\\) => c.stop\\(\\), 200\\)\")",
+      "Bash(node -e \"const {animate, useMotionValue} = require\\('c:/freelance/interlock/node_modules/framer-motion'\\); console.log\\(typeof animate\\)\")",
+      "Bash(node -e ' *)"
+    ]
+  }
+}
