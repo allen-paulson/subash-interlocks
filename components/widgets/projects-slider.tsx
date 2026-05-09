@@ -46,10 +46,26 @@ export default function ProjectsSlider({ projects }: Props) {
   }, []);
 
   useEffect(() => {
-    const autoScroll = emblaApi?.plugins()?.autoScroll;
+    if (!emblaApi) return;
+    const autoScroll = emblaApi.plugins()?.autoScroll;
     if (!autoScroll) return;
-    if (sliceCount === 5) autoScroll.stop();
-    else autoScroll.play();
+
+    const mobile = sliceCount === 5;
+
+    emblaApi.reInit({ loop: !mobile });
+
+    if (mobile) {
+      autoScroll.stop();
+      const keepStopped = () => autoScroll.stop();
+      emblaApi.on("settle", keepStopped);
+      emblaApi.on("pointerUp", keepStopped);
+      return () => {
+        emblaApi.off("settle", keepStopped);
+        emblaApi.off("pointerUp", keepStopped);
+      };
+    } else {
+      autoScroll.play();
+    }
   }, [emblaApi, sliceCount]);
 
   useEffect(() => {
