@@ -23,15 +23,8 @@ const WIDTHS = [
 ];
 
 export default function ProjectsSlider({ projects }: Props) {
-  const [emblaRef] = useEmblaCarousel(
-    {
-      align: "start",
-      loop: true,
-      dragFree: true,
-      watchDrag: () =>
-        typeof window !== "undefined" &&
-        window.matchMedia("(min-width: 768px)").matches,
-    },
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { align: "start", loop: true, dragFree: true },
     [
       AutoScroll({
         speed: 1.2,
@@ -41,6 +34,23 @@ export default function ProjectsSlider({ projects }: Props) {
     ],
   );
   const [overlayOpen, setOverlayOpen] = useState(false);
+  const [sliceCount, setSliceCount] = useState(10);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    setSliceCount(mq.matches ? 5 : 10);
+    const handler = (e: MediaQueryListEvent) =>
+      setSliceCount(e.matches ? 5 : 10);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  useEffect(() => {
+    const autoScroll = emblaApi?.plugins()?.autoScroll;
+    if (!autoScroll) return;
+    if (sliceCount === 5) autoScroll.stop();
+    else autoScroll.play();
+  }, [emblaApi, sliceCount]);
 
   useEffect(() => {
     document.body.style.overflow = overlayOpen ? "hidden" : "";
@@ -49,7 +59,7 @@ export default function ProjectsSlider({ projects }: Props) {
     };
   }, [overlayOpen]);
 
-  const featured = projects.slice(0, 10);
+  const featured = projects.slice(0, sliceCount);
 
   return (
     <section id="works" className="pb-8 md:pb-10 lg:pb-20">
@@ -59,7 +69,7 @@ export default function ProjectsSlider({ projects }: Props) {
           {featured.map((project, i) => (
             <div
               key={project.id}
-              className={`relative ms-1 shrink-0 overflow-hidden rounded-sm${i >= 5 ? " hidden md:block" : ""}`}
+              className={`relative ms-1 shrink-0 overflow-hidden rounded-sm`}
               style={{ width: WIDTHS[i % WIDTHS.length] }}
             >
               {/* Shimmer placeholder */}
@@ -77,7 +87,7 @@ export default function ProjectsSlider({ projects }: Props) {
                 alt={project.alt}
                 fill
                 sizes="60vh"
-                loading="eager"
+                loading="lazy"
                 className="object-cover object-top transition-transform duration-500 hover:scale-105"
               />
             </div>
