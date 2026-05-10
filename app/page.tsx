@@ -7,14 +7,14 @@ import Testimonials from "@/components/widgets/testimonials";
 import Contact from "@/components/widgets/contact";
 
 import { getProfile } from "@/lib/api/profile";
-import { getAllProjects } from "@/lib/api/projects";
+import { getWorksMainProjects } from "@/lib/api/projects";
 import { getServices } from "@/lib/api/services";
 import { getTestimonials } from "@/lib/api/testimonials";
 
 export default async function Page() {
   const [profile, projects, services, testimonials] = await Promise.all([
     getProfile(),
-    getAllProjects(),
+    getWorksMainProjects(),
     getServices(),
     getTestimonials(),
   ]);

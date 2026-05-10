@@ -15,6 +15,16 @@ const allProjects: Project[] = imageIds.map((n) => ({
   alt: `Interlock paving project — design ${n}`,
 }));
 
+const worksMainIds = ["works-1", "works-2", "works-3", "works-4", "works-5"];
+
+export async function getWorksMainProjects(): Promise<Project[]> {
+  return worksMainIds.map((name) => ({
+    id: name,
+    src: `/assets/works_main/${name}.webp`,
+    alt: `Interlock paving project — ${name.replace(/-/g, " ")}`,
+  }));
+}
+
 export async function getFeaturedProjects(): Promise<Project[]> {
   return allProjects.slice(0, 12);
 }

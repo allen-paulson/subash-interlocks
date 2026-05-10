@@ -1,17 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
-import InfoCard from "@/components/ui/info-card";
 import type { Service } from "@/lib/api/services";
+import { fadeUp, container, defaultTransition } from "@/lib/motion";
 
 type Props = { services: Service[] };
-
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-60px" } as const,
-  transition: { duration: 0.6, delay, ease: "easeOut" } as const,
-});
 
 const icons: Record<Service["iconKey"], React.ReactNode> = {
   compass: (
@@ -61,25 +55,111 @@ const icons: Record<Service["iconKey"], React.ReactNode> = {
 
 export default function Services({ services }: Props) {
   return (
-    <section className="py-8 md:py-10 lg:py-20">
+    <section className="py-16 md:py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-6">
-        <motion.div className="mb-6 md:mb-10 lg:mb-14" {...fadeUp(0)}>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl leading-none tracking-tight font-medium text-black">
+        {/* Section header */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={container}
+        >
+          <motion.div
+            className="flex items-center gap-3 mb-8"
+            variants={fadeUp}
+            transition={defaultTransition}
+          >
+            <span className="text-[10px] font-semibold tracking-[0.3em] text-gold uppercase">
+              Services
+            </span>
+            <div className="h-px flex-1 max-w-[60px] bg-gold/50" />
+            <div
+              className="size-1.5 bg-gold"
+              style={{ clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)" }}
+            />
+          </motion.div>
+
+          <motion.h2
+            className="font-serif font-light text-4xl sm:text-5xl md:text-6xl leading-none tracking-tight text-foreground mb-4"
+            variants={fadeUp}
+            transition={{ ...defaultTransition, delay: 0.06 }}
+          >
             What I Do
-          </h2>
+          </motion.h2>
+          <motion.div
+            className="h-px w-10 bg-gold/50 mb-6"
+            variants={fadeUp}
+            transition={{ ...defaultTransition, delay: 0.1 }}
+          />
+          <motion.p
+            className="text-sm text-foreground/50 leading-relaxed max-w-md mb-12 md:mb-16"
+            variants={fadeUp}
+            transition={{ ...defaultTransition, delay: 0.14 }}
+          >
+            Premium interlock paving solutions, built with precision, passion, and
+            a promise of perfection.
+          </motion.p>
         </motion.div>
 
-        <div className="grid gap-1 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service, i) => (
-            <motion.div key={service.id} {...fadeUp(i * 0.1)}>
-              <InfoCard
-                icon={icons[service.iconKey]}
-                title={service.title}
-                description={service.description}
-              />
+        {/* Service cards */}
+        <motion.div
+          className="flex flex-col gap-3"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={container}
+        >
+          {services.map((service) => (
+            <motion.div
+              key={service.id}
+              className="group relative flex flex-col sm:flex-row overflow-hidden rounded-sm border border-white/8 bg-surface hover:border-gold/40 transition-colors duration-200 ease-linear"
+              variants={fadeUp}
+              transition={defaultTransition}
+            >
+              {/* Left: content */}
+              <div className="flex flex-col justify-center gap-5 p-7 sm:p-10 sm:w-[45%] lg:w-[40%]">
+                {/* Icon circle */}
+                <div className="flex items-center justify-center size-12 rounded-full border border-gold/40 text-gold">
+                  {icons[service.iconKey]}
+                </div>
+                <div className="h-px w-8 bg-gold/30" />
+                <h3 className="font-serif text-xl md:text-2xl font-medium text-foreground">
+                  {service.title}
+                </h3>
+                <div className="h-px w-8 bg-gold/30" />
+                <p className="text-sm leading-relaxed text-foreground/50">
+                  {service.description}
+                </p>
+              </div>
+
+              {/* Right: image */}
+              <div className="relative h-56 sm:h-auto sm:flex-1 overflow-hidden">
+                <Image
+                  src={service.imageSrc}
+                  alt={service.title}
+                  fill
+                  className="object-cover object-center transition-transform duration-200 ease-linear group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, 60vw"
+                />
+                {/* Fade — top on mobile, left on sm+ */}
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background:
+                      "linear-gradient(to bottom, #141414 0%, transparent 40%)",
+                  }}
+                />
+                <div
+                  className="absolute inset-0 pointer-events-none hidden sm:block"
+                  style={{
+                    background:
+                      "linear-gradient(to right, #141414 0%, transparent 45%)",
+                  }}
+                />
+              </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

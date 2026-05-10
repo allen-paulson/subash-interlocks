@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
-import { Google_Sans_Flex } from "next/font/google";
+import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 
-const google_sans_flex = Google_Sans_Flex({
-  variable: "--font-google-sans-flex",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -64,9 +71,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${google_sans_flex.variable} h-full scroll-smooth antialiased`}
+      className={`${cormorant.variable} ${inter.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col bg-background text-foreground">
+        {children}
+      </body>
     </html>
   );
 }

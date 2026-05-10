@@ -3,6 +3,7 @@ export type Service = {
   iconKey: "compass" | "wrench" | "truck";
   title: string;
   description: string;
+  imageSrc: string;
 };
 
 export async function getServices(): Promise<Service[]> {
@@ -13,6 +14,7 @@ export async function getServices(): Promise<Service[]> {
       title: "Custom Geometric Designs",
       description:
         "Precise stone cutting for intricate circles, waves, and bespoke patterns that define your outdoor space.",
+      imageSrc: "/assets/services/service-1.webp",
     },
     {
       id: "maintenance",
@@ -20,6 +22,7 @@ export async function getServices(): Promise<Service[]> {
       title: "Maintenance & Re-laying",
       description:
         "Restoring old and uneven interlock surfaces to their original strength, level, and beauty.",
+      imageSrc: "/assets/services/service-2.webp",
     },
     {
       id: "driveways",
@@ -27,6 +30,7 @@ export async function getServices(): Promise<Service[]> {
       title: "Heavy-Duty Driveways",
       description:
         "Commercial-grade durability engineered to withstand Kerala's heaviest monsoon rains and vehicle loads.",
+      imageSrc: "/assets/services/service-3.webp",
     },
   ];
 }

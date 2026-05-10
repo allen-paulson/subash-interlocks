@@ -12,13 +12,13 @@ type Props = NextLinkProps &
 
 const variantClass: Record<Variant, string> = {
   primary:
-    "bg-orange-500 text-white hover:bg-orange-600 border border-transparent",
+    "bg-gold text-[#0d0d0d] hover:bg-gold-hover border border-transparent",
   secondary:
-    "bg-transparent text-zinc-950 border border-zinc-300 hover:border-zinc-950 hover:bg-zinc-50",
+    "bg-transparent text-gold border border-gold/40 hover:bg-gold hover:text-[#0d0d0d]",
   whatsapp:
-    "bg-emerald-600 text-white hover:bg-emerald-500 border border-transparent",
+    "bg-[#25D366] text-white hover:bg-[#1fbe5c] border border-transparent",
   call:
-    "bg-slate-900 text-white hover:bg-slate-700 border border-transparent",
+    "bg-transparent text-gold border border-gold/40 hover:bg-gold hover:text-[#0d0d0d]",
 };
 
 export default function Link({
@@ -30,7 +30,7 @@ export default function Link({
   return (
     <NextLink
       className={[
-        "inline-flex items-center justify-center gap-2 rounded-md px-6 h-11 text-sm font-medium transition-colors sm:px-8 sm:h-13 sm:text-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500",
+        "inline-flex items-center justify-center gap-2 px-6 h-11 text-xs font-semibold tracking-[0.15em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold",
         variantClass[variant],
         className,
       ]
