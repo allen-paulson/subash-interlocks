@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import NextLink from "next/link";
@@ -12,11 +13,15 @@ type Props = { projects: Project[] };
 const WIDTHS = ["55vh", "40vh", "65vh", "35vh", "50vh"];
 
 export default function ProjectsSlider({ projects }: Props) {
-  const [emblaRef] = useEmblaCarousel({
+  const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
-    loop: true,
-    dragFree: true,
+    loop: false,
+    dragFree: false,
+    watchDrag: () => window.matchMedia("(pointer: fine)").matches,
   });
+
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
   return (
     <section id="works" className="pb-10 md:pb-16 lg:pb-24">
@@ -27,7 +32,10 @@ export default function ProjectsSlider({ projects }: Props) {
         viewport={{ once: true, margin: "-40px" }}
         transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        <div className="h-[50vh] overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRef}>
+        <div
+          className="h-[50vh] overflow-hidden md:cursor-grab md:active:cursor-grabbing"
+          ref={emblaRef}
+        >
           <div className="flex h-full items-stretch">
             {projects.map((project, i) => (
               <div
@@ -59,9 +67,31 @@ export default function ProjectsSlider({ projects }: Props) {
         </div>
       </motion.div>
 
+      {/* Mobile prev/next buttons */}
+      <div className="flex md:hidden justify-center gap-3 mt-6">
+        <button
+          onClick={scrollPrev}
+          aria-label="Previous project"
+          className="flex size-11 items-center justify-center rounded-full border border-gold/30 text-gold hover:bg-gold hover:text-[#0d0d0d] transition-colors"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" className="size-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+          </svg>
+        </button>
+        <button
+          onClick={scrollNext}
+          aria-label="Next project"
+          className="flex size-11 items-center justify-center rounded-full border border-gold/30 text-gold hover:bg-gold hover:text-[#0d0d0d] transition-colors"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" className="size-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
+      </div>
+
       {/* CTA */}
       <motion.div
-        className="mt-10 flex justify-center"
+        className="mt-6 md:mt-10 flex justify-center"
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-40px" }}
