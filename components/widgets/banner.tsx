@@ -41,7 +41,7 @@ export default function Banner() {
               className="rounded-full ring-1 ring-white object-cover size-5"
             />
           </div>
-          <span className="text-xs text-white pe-2">+100 happy customers</span>
+          <span className="text-xs text-white pe-2">+101 happy customers</span>
         </motion.div>
 
         <motion.h1
